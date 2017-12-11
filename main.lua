@@ -3,14 +3,9 @@ local widget = require("widget")
 local dir
 
 local cabeca = display.newRect(100, 100, 17, 17)
-local corpo = {display.newRect(50, 100, 17, 17), display.newRect(50, 100, 17, 17)}
+cabeca.name = "cabeca"
 
-local move = function(event)
-	if event.phase == "began" then
-		dir = event.target.id
-		print(dir)
-	end
-end
+local corpo = {}
 
 function play()
 
@@ -41,19 +36,22 @@ function play()
 		else
 			corpo[i].x = xPos[i-1]
 			corpo[i].y = yPos[i-1]
-		end	
-
-		if cabeca.x == corpo[2].x and cabeca.y == corpo[2].y then
-		print("Lascou")
-		end	
-
+		end
 	end	
 
-
-
-
+	if (cabeca.y <= 0 or cabeca.x <= 0) then 
+		print("GAME-OVER")
+		print(cabeca.y)
+	end
 
 end	
+
+local move = function(event)
+	if event.phase == "began" then
+		dir = event.target.id
+		print(dir)
+	end
+end
 
 local up = widget.newButton(
     {
@@ -103,7 +101,6 @@ local right = widget.newButton(
     }
 )
 
-
 up.y = display.contentCenterY + 200
 up.x = display.contentCenterX
 
@@ -116,4 +113,6 @@ left.x = display.contentCenterX - 100
 right.y = display.contentCenterY + 225
 right.x = display.contentCenterX + 100
 
-timer.performWithDelay(100, play, 0)
+local timer = timer.performWithDelay(100, play, 0)
+--display.newRect(display.contentCenterX, display.contentCenterY + 230, 400, 110)
+
