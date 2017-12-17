@@ -12,9 +12,25 @@ cabeca.name = "cabeca"
 physics.addBody(cabeca, "dynamic")
 physics.setGravity( 0, 0 )
 
+local grupo = display.newGroup()
 
+local comidaX = 200
+local comidaY = 120
 
-local corpo = {}
+local corpo = {display.newRect(100, 100, 17, 17)}
+
+local comida = display.newRect(comidaX, comidaY, 17, 17)
+
+physics.addBody(comida, "static")
+
+function comeu(event)
+	if event.phase == "began" then
+		timer.performWithDelay(1, comida:removeSelf( ), 1)
+		table.insert(corpo, display.newRect(comidaX, comidaY, 17, 17))
+		comida = display.newRect(50, 250, 17, 17)
+		physics.addBody(comida, "static")
+	end	
+end
 
 function play()
 
@@ -123,5 +139,6 @@ right.y = display.contentCenterY + 225
 right.x = display.contentCenterX + 100
 
 local timer = timer.performWithDelay(100, play, 0)
+cabeca:addEventListener("collision", comeu )
 --display.newRect(display.contentCenterX, display.contentCenterY + 230, 400, 110)
 
