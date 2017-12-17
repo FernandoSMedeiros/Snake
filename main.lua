@@ -1,11 +1,42 @@
+local physics = require ("physics")
 local widget = require("widget")
 
-local dir
-
-local cabeca = display.newRect(100, 100, 17, 17)
-cabeca.name = "cabeca"
+physics.start()
+physics.setDrawMode("hybrid")
+physics.setGravity(0, 0)
 
 local corpo = {}
+
+function colisao(self, event)
+	
+	local corpoParte = display.newRect(200, 350, 17, 17)
+	corpoParte.type = "corpo"
+
+
+	if event.phase == "began" then	
+	 if event.target.type == "cabeca" and event.other.type == "comida" then 
+	 end	
+		print(event.target.type) 
+		print(event.other.type)
+		physics.addBody(corpoParte)
+		table.insert(corpo, corpoParte)
+
+	elseif event.phase == "ended" then	
+		
+	end	
+	-- 
+end
+
+local cabeca = display.newRect(100, 100, 17, 17)
+cabeca.type = "cabeca"
+cabeca.collision = colisao
+cabeca:addEventListener("collision", cabeca)
+physics.addBody(cabeca, "dynamic")
+
+local comida = display.newRect(200, 350, 17, 17)
+comida.name = "comida"
+comida.type = "comida"
+physics.addBody(comida, "static")
 
 function play()
 
@@ -26,6 +57,12 @@ function play()
 	local yPos = {}
 	
 	for i = 1, #corpo do
+
+		if i == 2 then
+			for i = 2, #corpo do
+				physics.addBody(corpo[i])
+			end	
+		end	
 				
 		xPos[i] = corpo[i].x
 		yPos[i] = corpo[i].y
@@ -45,6 +82,8 @@ function play()
 	end
 
 end	
+
+
 
 local move = function(event)
 	if event.phase == "began" then
@@ -88,8 +127,8 @@ local left = widget.newButton(
 
 local right = widget.newButton(
     {
-        --[[left = 100,
-        top = 50,--]]
+        left = 100,
+        top = 50,
         shape = "roundedRect",
         width = 80,
         height = 30,  
