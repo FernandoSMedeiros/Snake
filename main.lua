@@ -1,9 +1,18 @@
 local widget = require("widget")
+local physics = require("physics")
+
+physics.start()
+
+physics.setDrawMode( "hybrid" )
 
 local dir
 
 local cabeca = display.newRect(100, 100, 17, 17)
 cabeca.name = "cabeca"
+physics.addBody(cabeca, "dynamic")
+physics.setGravity( 0, 0 )
+
+
 
 local corpo = {}
 
