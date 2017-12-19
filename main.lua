@@ -1,4 +1,9 @@
+local physics = require("physics")
 local widget = require("widget")
+local c = require("Comida")
+physics.start()
+physics.setDrawMode("hybrid")
+physics.setGravity(0, 0)
 
 local dir
 
@@ -6,6 +11,8 @@ local cabeca = display.newRect(100, 100, 17, 17)
 cabeca.name = "cabeca"
 
 local corpo = {}
+
+local comida = c:criar(100, 150)
 
 function play()
 
