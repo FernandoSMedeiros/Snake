@@ -1,110 +1,95 @@
+--[[local composer = require( "composer" )
+composer.gotoScene("Menu")--]]
+
 local physics = require("physics")
 local widget = require("widget")
 local c = require("Comida")
 local s = require("Snake")
 
-local palco = display.newRect(display.contentCenterX, display.contentCenterY-42, 320, 410)
-palco:setFillColor(0.32, 0.62, 0,38)
-
 physics.start()
 physics.setDrawMode("hybrid")
 physics.setGravity(0, 0)
+
+local palco = display.newRect(display.contentCenterX, display.contentCenterY-42, 320, 410)
+palco:setFillColor(0.32, 0.62, 0,38)
+
 
 local dir
 
 local snake = s:criar()
 local cabeca = snake.cabeca
---cabeca.name = "cabeca"
-
---[[for i = 1, 20 do
---snake:comer()
-
-end--]]
-
-
 
 local comida = c:criar()
 
---local corpo = {}
-
-local comi = function()
-	
-	comida = c:criar()
-end
-
 function play()
 
-	--comida:removeSelf()
+    if(dir == 'up') then
+        cabeca.y = cabeca.y - 12        
+    elseif(dir == 'left') then
+        cabeca.x = cabeca.x - 12        
+    elseif(dir == 'down') then
+        cabeca.y = cabeca.y + 12        
+    elseif(dir == 'right') then
+        cabeca.x = cabeca.x + 12        
+    end
 
-	timer.performWithDelay(50, comi)
+    if cabeca.x <= 0 then
+        cabeca.x = 310
+    elseif cabeca.x >= 310 then
+        cabeca.x = 0    
+    end 
 
-	if(dir == 'up') then
-		cabeca.y = cabeca.y - 12		
-	elseif(dir == 'left') then
-		cabeca.x = cabeca.x - 12		
-	elseif(dir == 'down') then
-		cabeca.y = cabeca.y + 12		
-	elseif(dir == 'right') then
-		cabeca.x = cabeca.x + 12		
-	end
+    if cabeca.y <= 0 then
+        cabeca.y = 400
+    elseif cabeca.y >= 400 then
+        cabeca.y = 0    
+    end 
 
-	if cabeca.x <= 0 then
-		cabeca.x = 310
-	elseif cabeca.x >= 310 then
-		cabeca.x = 0	
-	end	
+    --if #snake.corpo == 0 then
+        local ultimoX = cabeca.x
+        local ultimoY = cabeca.y
+    --else
+        --local ultimoX = cabeca.x
+        --local ultimoY = cabeca.y      
+    --end
 
-	if cabeca.y <= 0 then
-		cabeca.y = 400
-	elseif cabeca.y >= 400 then
-		cabeca.y = 0	
-	end	
+    local xPos = {}
+    local yPos = {}
+    
+    for i = 1, #snake.corpo do
+                
+        xPos[i] = snake.corpo[i].x
+        yPos[i] = snake.corpo[i].y
+        
+        if(snake.corpo[i-1] == nil) then
+            snake.corpo[i].x = ultimoX
+            snake.corpo[i].y = ultimoY
+        else
+            snake.corpo[i].x = xPos[i-1]
+            snake.corpo[i].y = yPos[i-1]
+        end
+    end 
 
-	--if #snake.corpo == 0 then
-		local ultimoX = cabeca.x
-		local ultimoY = cabeca.y
-	--else
-		--local ultimoX = cabeca.x
-		--local ultimoY = cabeca.y		
-	--end
+    gameOver()
 
-	local xPos = {}
-	local yPos = {}
-	
-	for i = 1, #snake.corpo do
-				
-		xPos[i] = snake.corpo[i].x
-		yPos[i] = snake.corpo[i].y
-		
-		if(snake.corpo[i-1] == nil) then
-			snake.corpo[i].x = ultimoX
-			snake.corpo[i].y = ultimoY
-		else
-			snake.corpo[i].x = xPos[i-1]
-			snake.corpo[i].y = yPos[i-1]
-		end
-	end	
+end 
 
-	gameOver()
-
-end	
-
-function gameOver()	
+function gameOver() 
     if #snake.corpo >=2 then
     for i = 2, #snake.corpo do      
       if (snake.corpo[i].x + 0.7 == cabeca.x + 0.7 and snake.corpo[i].y + 0.7 == cabeca.y + 0.7) or 
-      	(snake.corpo[i].x - 0.7 == cabeca.x - 0.7 and snake.corpo[i].y - 0.7 == cabeca.y - 0.7) then
-      	print("Perdeu")	
-      end	
+        (snake.corpo[i].x - 0.7 == cabeca.x - 0.7 and snake.corpo[i].y - 0.7 == cabeca.y - 0.7) then
+        print("Perdeu") 
+      end   
     end
-	end
+    end
 end
 
 local move = function(event)
-	if event.phase == "began" then
-		dir = event.target.id
-		print(dir)
-	end
+    if event.phase == "began" then
+        dir = event.target.id
+        print(dir)
+    end
 end
 
 local up = widget.newButton(
