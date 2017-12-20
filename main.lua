@@ -13,15 +13,16 @@ physics.setGravity(0, 0)
 local palco = display.newRect(display.contentCenterX, display.contentCenterY-42, 320, 410)
 palco:setFillColor(0.32, 0.62, 0,38)
 
+local comida = c:criar()
 
 local dir
 
 local snake = s:criar()
 local cabeca = snake.cabeca
 
-local comida = c:criar()
 
-function play()
+
+function play()	
 
     if(dir == 'up') then
         cabeca.y = cabeca.y - 12        
@@ -74,16 +75,7 @@ function play()
 
 end 
 
-function gameOver() 
-    if #snake.corpo >=2 then
-    for i = 2, #snake.corpo do      
-      if (snake.corpo[i].x + 0.7 == cabeca.x + 0.7 and snake.corpo[i].y + 0.7 == cabeca.y + 0.7) or 
-        (snake.corpo[i].x - 0.7 == cabeca.x - 0.7 and snake.corpo[i].y - 0.7 == cabeca.y - 0.7) then
-        print("Perdeu") 
-      end   
-    end
-    end
-end
+
 
 local move = function(event)
     if event.phase == "began" then
@@ -153,5 +145,15 @@ right.y = display.contentCenterY + 225
 right.x = display.contentCenterX + 100
 
 local timer = timer.performWithDelay(100, play, 0)
---display.newRect(display.contentCenterX, display.contentCenterY + 230, 400, 110)
 
+function gameOver() 
+    if #snake.corpo >=2 then
+    for i = 2, #snake.corpo do      
+      if (snake.corpo[i].x + 0.7 == cabeca.x + 0.7 and snake.corpo[i].y + 0.7 == cabeca.y + 0.7) or 
+        (snake.corpo[i].x - 0.7 == cabeca.x - 0.7 and snake.corpo[i].y - 0.7 == cabeca.y - 0.7) then
+        print("Perdeu")
+        timer.cancel(timer) 
+      end   
+    end
+    end
+end
