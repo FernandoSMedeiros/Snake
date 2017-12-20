@@ -29,10 +29,7 @@ function Snake.mordida(self, event)
 	if began then
 		Snake:comer()
 		print(Snake:tamanho())
-	else
-		return true
 	end
-
 
 end
 

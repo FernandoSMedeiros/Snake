@@ -27,7 +27,16 @@ local comida = c:criar()
 
 --local corpo = {}
 
+local comi = function()
+	
+	comida = c:criar()
+end
+
 function play()
+
+	--comida:removeSelf()
+
+	timer.performWithDelay(50, comi)
 
 	if(dir == 'up') then
 		cabeca.y = cabeca.y - 12		
