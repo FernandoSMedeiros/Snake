@@ -4,12 +4,15 @@ local Snake = {cabeca, corpo = {}}
 
 function Snake:criar()
 	self.cabeca = display.newRect(50, 50, 12, 12)
+	self.cabeca.type = "cabeca"
+	self.cabeca.collision = Snake.mordida
+	self.cabeca:addEventListener("collision", self.cabeca)
 	physics.addBody(self.cabeca)
 	return self
 end
 
 function Snake:comer()
-	table.insert(self.corpo, display.newRect(50, 50, 12, 12))
+	table.insert(self.corpo, display.newRect(-20, -20, 12, 12))
 end
 
 function Snake:tamanho()
@@ -19,5 +22,18 @@ function Snake:tamanho()
 	end
 	return tamanho
 end	
+
+function Snake.mordida(self, event)
+	local began = event.phase == "began"
+	
+	if began then
+		Snake:comer()
+		print(Snake:tamanho())
+	else
+		return true
+	end
+
+
+end
 
 return Snake

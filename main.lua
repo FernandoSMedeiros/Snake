@@ -13,14 +13,17 @@ physics.setGravity(0, 0)
 local dir
 
 local snake = s:criar()
-
 local cabeca = snake.cabeca
 --cabeca.name = "cabeca"
 
-for i = 1, 20 do
-snake:comer()
-c:criar()
-end
+--[[for i = 1, 20 do
+--snake:comer()
+
+end--]]
+
+
+
+local comida = c:criar()
 
 --local corpo = {}
 
@@ -48,9 +51,14 @@ function play()
 		cabeca.y = 0	
 	end	
 
-	local ultimoX = cabeca.x
-	local ultimoY = cabeca.y
-	
+	--if #snake.corpo == 0 then
+		local ultimoX = cabeca.x
+		local ultimoY = cabeca.y
+	--else
+		--local ultimoX = cabeca.x
+		--local ultimoY = cabeca.y		
+	--end
+
 	local xPos = {}
 	local yPos = {}
 	
@@ -68,7 +76,20 @@ function play()
 		end
 	end	
 
+	gameOver()
+
 end	
+
+function gameOver()	
+    if #snake.corpo >=2 then
+    for i = 2, #snake.corpo do      
+      if (snake.corpo[i].x + 0.7 == cabeca.x + 0.7 and snake.corpo[i].y + 0.7 == cabeca.y + 0.7) or 
+      	(snake.corpo[i].x - 0.7 == cabeca.x - 0.7 and snake.corpo[i].y - 0.7 == cabeca.y - 0.7) then
+      	print("Perdeu")	
+      end	
+    end
+	end
+end
 
 local move = function(event)
 	if event.phase == "began" then
