@@ -15,6 +15,10 @@ palco:setFillColor(0.32, 0.62, 0,38)
 
 local comida = c:criar()
 
+-- for i = 1, 40 do
+--     c:criar()
+-- end    
+
 local dir
 
 local snake = s:criar()
@@ -152,7 +156,7 @@ function gameOver()
       if (snake.corpo[i].x + 0.7 == cabeca.x + 0.7 and snake.corpo[i].y + 0.7 == cabeca.y + 0.7) or 
         (snake.corpo[i].x - 0.7 == cabeca.x - 0.7 and snake.corpo[i].y - 0.7 == cabeca.y - 0.7) then
         print("Perdeu")
-        timer.cancel(timer) 
+        --display.newRect(display.contentCenterX, display.contentCenterY, 500, 500) 
       end   
     end
     end

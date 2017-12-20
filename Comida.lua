@@ -1,5 +1,6 @@
 --local main = require("main")
 local physics = require("physics")
+physics.start()
 
 local Comida = {comida}
 
@@ -10,7 +11,7 @@ function Comida:criar()
 	self.comida.type = "comida"
 	self.comida.collision = Comida.ingerida
 	self.comida:addEventListener("collision", comida)
-	physics.addBody(self.comida)
+	physics.addBody(self.comida, "dynamic")
 	return self
 end
 
@@ -19,14 +20,10 @@ function Comida.ingerida(self, event)
 	local ended = event.phase == "ended"	
 
 	if began then		
-		print("BATEU")
+		print("BATEU")	
 	elseif ended then
-		--timer.performWithDelay(1, Comida.comida:removeSelf())				
+		--timer.performWithDelay(2, Comida.comida:removeSelf())					
 	end
-end
-
-function Comida.remover()
-	Comida:removeSelf()
 end
 
 return Comida

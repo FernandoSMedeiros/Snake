@@ -1,4 +1,7 @@
 local physics = require("physics")
+local comida = require("Comida")
+
+
 
 local Snake = {cabeca, corpo = {}}
 
@@ -7,7 +10,7 @@ function Snake:criar()
 	self.cabeca.type = "cabeca"
 	self.cabeca.collision = Snake.mordida
 	self.cabeca:addEventListener("collision", self.cabeca)
-	physics.addBody(self.cabeca)
+	physics.addBody(self.cabeca, "dynamic")
 	return self
 end
 
@@ -31,6 +34,10 @@ function Snake.mordida(self, event)
 		print(Snake:tamanho())		
 	end
 
+
+
 end
+
+
 
 return Snake
