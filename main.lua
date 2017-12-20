@@ -3,6 +3,8 @@ local widget = require("widget")
 local c = require("Comida")
 local s = require("Snake")
 
+local palco = display.newRect(display.contentCenterX, display.contentCenterY-42, 320, 410)
+palco:setFillColor(0.32, 0.62, 0,38)
 
 physics.start()
 physics.setDrawMode("hybrid")
@@ -20,19 +22,31 @@ snake:comer()
 c:criar()
 end
 
-local corpo = {}
+--local corpo = {}
 
 function play()
 
 	if(dir == 'up') then
-		cabeca.y = cabeca.y - 17		
+		cabeca.y = cabeca.y - 12		
 	elseif(dir == 'left') then
-		cabeca.x = cabeca.x - 17		
+		cabeca.x = cabeca.x - 12		
 	elseif(dir == 'down') then
-		cabeca.y = cabeca.y + 17		
+		cabeca.y = cabeca.y + 12		
 	elseif(dir == 'right') then
-		cabeca.x = cabeca.x + 17		
+		cabeca.x = cabeca.x + 12		
 	end
+
+	if cabeca.x <= 0 then
+		cabeca.x = 310
+	elseif cabeca.x >= 310 then
+		cabeca.x = 0	
+	end	
+
+	if cabeca.y <= 0 then
+		cabeca.y = 400
+	elseif cabeca.y >= 400 then
+		cabeca.y = 0	
+	end	
 
 	local ultimoX = cabeca.x
 	local ultimoY = cabeca.y
@@ -53,11 +67,6 @@ function play()
 			snake.corpo[i].y = yPos[i-1]
 		end
 	end	
-
-	if (cabeca.y <= 0 or cabeca.x <= 0) then 
-		print("GAME-OVER")
-		print(cabeca.y)
-	end
 
 end	
 
