@@ -1,18 +1,26 @@
 local physics = require("physics")
 local widget = require("widget")
 local c = require("Comida")
+local s = require("Snake")
+
+
 physics.start()
 physics.setDrawMode("hybrid")
 physics.setGravity(0, 0)
 
 local dir
 
-local cabeca = display.newRect(100, 100, 17, 17)
-cabeca.name = "cabeca"
+local snake = s:criar()
+
+local cabeca = snake.cabeca
+--cabeca.name = "cabeca"
+
+for i = 1, 20 do
+snake:comer()
+c:criar()
+end
 
 local corpo = {}
-
-local comida = c:criar(100, 150)
 
 function play()
 
@@ -32,17 +40,17 @@ function play()
 	local xPos = {}
 	local yPos = {}
 	
-	for i = 1, #corpo do
+	for i = 1, #snake.corpo do
 				
-		xPos[i] = corpo[i].x
-		yPos[i] = corpo[i].y
+		xPos[i] = snake.corpo[i].x
+		yPos[i] = snake.corpo[i].y
 		
-		if(corpo[i-1] == nil) then
-			corpo[i].x = ultimoX
-			corpo[i].y = ultimoY
+		if(snake.corpo[i-1] == nil) then
+			snake.corpo[i].x = ultimoX
+			snake.corpo[i].y = ultimoY
 		else
-			corpo[i].x = xPos[i-1]
-			corpo[i].y = yPos[i-1]
+			snake.corpo[i].x = xPos[i-1]
+			snake.corpo[i].y = yPos[i-1]
 		end
 	end	
 

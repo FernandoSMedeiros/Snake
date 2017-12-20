@@ -10,4 +10,14 @@ end
 
 function Snake:comer()
 	table.insert(self.corpo, display.newRect(50, 50, 17, 17))
+end
+
+function Snake:tamanho()
+	tamanho = 0
+	for i = 1, #self.corpo do
+		tamanho = tamanho + 1
+	end
+	return tamanho
 end	
+
+return Snake
